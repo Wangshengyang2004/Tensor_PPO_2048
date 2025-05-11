@@ -1,6 +1,14 @@
 # Tensor PPO 2048
 
-A PyTorch implementation of Proximal Policy Optimization (PPO) for playing 2048, with optimizations including Triton kernels, TorchScript, and CUDA graphs.
+![Maximum Speed Up](plots/speedup.png)
+![Tensorboard Log](plots/train_result.png)
+
+A PyTorch implementation of Proximal Policy Optimization (PPO) for playing 2048, with optimizations including Triton kernels, Fully-vectorized environment, LUT tables, etc. Compare to other Github naive implementations, our method boosts the performance by 76 times. In one day of trainning time, our policy can consistently reach 4096.
+We attribute our success to the power of scaling law and data-driven RL.
+
+## Authorship
+This repo contains code for the Final Project of STATS-303 Statistical Machine Learning at Duke KunShan University.
+Author: Shengyang Wang, Xudong Chen
 
 ## Directory Structure
 
@@ -25,9 +33,12 @@ A PyTorch implementation of Proximal Policy Optimization (PPO) for playing 2048,
 
 1. Training PPO:
 ```bash
-python ppo2048.py --com_reward
+python ppo2048.py # On a single GPU, --com_reward if you want to enable a more sophisticated reward (Performance not increasing much)
 ```
-
+Or with multiple gpu:
+```bash
+torchrun --nproc_per_node=8
+```
 2. Evaluating a trained model:
 ```bash
 python evaluate.py --policy ppo --ppo-model models/ppo2048_final.pth
@@ -105,3 +116,20 @@ Available metrics:
 - **Loss/value**: average value loss per PPO epoch
 - **Loss/entropy**: average policy entropy per PPO epoch
 - **Distributions/returns**, **Distributions/advantages**, **Distributions/actions**: histograms of batched returns, advantages, and chosen actions 
+
+## How to Cite
+
+If you use this codebase in your research or projects, please cite it as follows:
+
+```
+@misc{TensorPPO2048,
+  author = {Shengyang Wang and Xudong Chen},
+  title = {Tensor PPO 2048: A PyTorch implementation of Proximal Policy Optimization for 2048},
+  year = {2024},
+  howpublished = {\url{https://github.com/Wangshengyang2004/Tensor_PPO_2048}}
+}
+```
+
+Repository: [https://github.com/Wangshengyang2004/Tensor_PPO_2048](https://github.com/Wangshengyang2004/Tensor_PPO_2048)
+
+Authorship: Shengyang Wang, Xudong Chen 
